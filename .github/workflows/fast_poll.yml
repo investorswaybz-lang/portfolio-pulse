@@ -18,7 +18,10 @@ on:
 
 concurrency:
   group: pulse-fast-poll
-  cancel-in-progress: false
+  # Newest poll wins — a stuck/queued run never blocks a fresh one. Safe because
+  # items are marked seen only after delivery, so a cancelled mid-run poll loses
+  # nothing (its undelivered items reappear next tick).
+  cancel-in-progress: true
 
 jobs:
   poll:
